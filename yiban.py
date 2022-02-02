@@ -169,7 +169,7 @@ class Yiban():
 
     def auto_fill_form(self, resp, submit_data):
         # generate task title
-        task_title = f'{datetime.date.today().month-1}月2{datetime.date.today().day}日体温检测'
+        task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
         # traverse task list
         for i in resp['data']:
             if i['Title'] == task_title:
