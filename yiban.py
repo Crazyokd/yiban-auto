@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # @Author: Rekord
-# @Date: 2021-02-01
+# @Date: 2022-02-01
 
 import re
 import time
@@ -32,7 +32,7 @@ class Yiban():
             ZRsH+P3+NNOZOEwUdjJUAx8CAwEAAQ==
             -----END PUBLIC KEY-----
             '''
-    CSRF = '000000'
+    CSRF = '000000' # Any
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
     HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "Yiban", "AppVersion": "5.0"}  # 固定头 无需更改    
               
@@ -40,11 +40,7 @@ class Yiban():
         self.session = requests.session()
         self.mobile = mobile
         self.password = password
-        try:
-            self.login()
-        except Exception as e:
-            self.session.close()
-            print(e)
+        self.login()
 
     
     def req(self, url, method='get', cookies={}, headers={}, timeout=5, allow_redirects=True, **kwargs):
@@ -74,7 +70,8 @@ class Yiban():
                 allow_redirects = allow_redirects
             )
         else:
-            raise Exception('Requests method error')
+            self.session.close()    # close session
+            raise ConnectionError('Requests method error.')
         return resp
 
 
@@ -95,30 +92,20 @@ class Yiban():
             self.access_token = resp['data']['access_token']
             print(self.name, "login success!")
         else:
-            raise Exception(f'Login Error: {self.mobile} Message: {resp["message"]}')
+            self.session.close()    # close session
+            raise Exception(f'login fail, the mobile or password is wrong.')
     
 
-    def submit_task(self):
+    def submit_task(self, submit_data):
         # 校本化认证
         self.auth()
 
         # # 获取未完成任务列表
-        print("uncompleted task list: ", self.getUncompletedList()['data'])
-        # 获取已完成任务列表
+        # print("uncompleted task list: ", self.getUncompletedList()['data'])
+        # # 获取已完成任务列表
         # print("completed task list: ", self.getCompletedList())
         
-
-        task_list = []    # 任务列表
-        result_data = self.auto_fill_form(self.getUncompletedList(), task_list)
-
-        # 无未打卡任务或存在其他任务
-        result_data['code'] = 2
-        if len(task_list) == 0:
-            result_data['msg'] = '无未打卡任务'
-        else:
-            result_data['msg'] = f'当前存在其他任务：{task_list}'
-
-        return result_data
+        self.auto_fill_form(self.getUncompletedList(), submit_data)
 
 
     def auth(self):
@@ -130,13 +117,13 @@ class Yiban():
             allow_redirects=False
         )
         verify = re.findall(r"verify_request=(.*?)&", resp.headers.get("Location"))[0]
-        resp = self.req(
+        self.req(
             url='https://api.uyiban.com/base/c/auth/yiban', 
             params={'verifyRequest': verify, 'CSRF': self.CSRF},
         )
 
 
-    def re_auth(self, resp):
+    def re_auth(self):
         self.req(
             method='post',
             url='https://oauth.yiban.cn/code/usersure', 
@@ -156,7 +143,8 @@ class Yiban():
         # auth again
         if resp['data'] is None:
             self.re_auth(resp)
-            raise Exception("auth expired, please try again!")
+            self.session.close()    # close session
+            raise Exception("auth expired, please try again.")
         
         return resp
         
@@ -173,33 +161,28 @@ class Yiban():
         # auth again
         if resp['data'] is None:
             self.re_auth(resp)
-            raise Exception("auth expired, please try again!")
+            self.session.close()    # close session
+            raise Exception("auth expired, please try again.")
 
         return resp
 
 
-    def auto_fill_form(self, resp, task_list):
-        # read data from file.
-        with open('config.json', encoding='utf-8') as f:
-            json_data = json.load(f)
-        submit_data = json_data['SubmitData']  # 提交表单数据
-
-        result_data = {'code': 0, 'name':self.name, 'msg': ''}  # 返回字典
+    def auto_fill_form(self, resp, submit_data):
         # generate task title
-        task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
-        # 遍历未完成任务列表
+        task_title = f'{datetime.date.today().month-1}月2{datetime.date.today().day}日体温检测'
+        # traverse task list
         for i in resp['data']:
-            # 判断任务标题
             if i['Title'] == task_title:
                 task_detail = self.req(
                     url='https://api.uyiban.com/officeTask/client/index/detail', 
                     params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
                 ).json()['data']
 
-                print(task_detail)
+                # self.view_completed(task_detail['InitiateId'])
+                # print(task_detail)
 
                 extend = {
-                    "TaskId": task_detail["Id"],
+                    "TaskId":  task_detail["Id"],
                     "title": "任务信息",
                     "content": [
                         {"label": "任务名称", "value": task_detail["Title"]},
@@ -211,9 +194,9 @@ class Yiban():
                     "c77d35b16fb22ec70a1f33c315141dbb": time.strftime("%Y-%m-%d %H:%M", time.localtime()), 
                     "2d4135d558f849e18a5dcc87b884cce5": str(round(random.uniform(35.2, 35.8), 1)), 
                     "27a2a4cdf16a8c864daca54a00c4db03": {
-                        "name": "address",
-                        "location": "longtitude, latitude",
-                        "address": "detail_address"
+                        "name": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['name'],
+                        "location": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['location'],
+                        "address": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['address']
                     }
                 }
 
@@ -229,24 +212,16 @@ class Yiban():
                     data={'Str': aes_encrypt(self.AES_KEY, self.AES_IV, postData)}
                 ).json()
 
-                # Success
-                if resp['code'] == 0:
-                    result_data['code'] = 1
-                    result_data['msg'] = '打卡成功'
-                    print("打卡成功")
-                # Error
-                else:
-                    result_data['msg'] = resp['msg']
-                    print("打卡失败")
+                # Failed
+                if resp['code'] != 0:
+                    self.session.close()    # close session
+                    raise Exception(f"clock out failed.")
                 break
-        return result_data
 
 
-if __name__ == '__main__':
-    yiban = Yiban('phone', 'password')
-    try:
-        yiban.submit_task()
-    except Exception as e:
-        yiban.session.close()
-        print(e)
-
+    "通过此函数可以分析已提交的表单数据"
+    def view_completed(self, InitiateId):
+        print(self.req(
+            url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
+            params={'CSRF': self.CSRF}
+        ).json()['data']['Initiate'])
