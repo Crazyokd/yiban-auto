@@ -1,0 +1,26 @@
+{
+    "UserList": [
+        {"name": "nickname", "mobile": "mobile", "password": "password"}
+    ],
+    "SubmitData": {
+        "WFId": "WFId",
+        "Data": { 
+            "c77d35b16fb22ec70a1f33c315141dbb": "日期", 
+            "2d4135d558f849e18a5dcc87b884cce5": "体温", 
+            "27a2a4cdf16a8c864daca54a00c4db03": {
+                "name": "address_name",
+                "location": "longitude,latitude",
+                "address": "address_detail_name"
+            }
+        },
+        "Extend": {
+            "TaskId": "task_id",
+            "title": "任务信息",
+            "content": [
+                {"label": "任务名称", "value": "task_name"},
+                {"label": "发布机构", "value": "pub_institution"},
+                {"label": "发布人", "value": "pub_person"}
+            ]
+        }
+    }
+}
