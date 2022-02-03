@@ -142,7 +142,7 @@ class Yiban():
         ).json()
         # auth again
         if resp['data'] is None:
-            self.re_auth(resp)
+            self.re_auth()
             self.session.close()    # close session
             raise Exception("auth expired, please try again.")
         
@@ -160,7 +160,7 @@ class Yiban():
         ).json()
         # auth again
         if resp['data'] is None:
-            self.re_auth(resp)
+            self.re_auth()
             self.session.close()    # close session
             raise Exception("auth expired, please try again.")
 
