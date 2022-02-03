@@ -1,6 +1,10 @@
 # yiban-auto
 csust易班校本化自动健康打卡.
 
+## Content
+- [Usage](#Usage)
+- [Reference](#Reference)
+- [License](#License)
 ## Usage
 ### 1. edit the config.json
 ```
@@ -9,9 +13,8 @@ csust易班校本化自动健康打卡.
         "NickName": "nickname",
         "Mobile": "mobile",
         "Password": "password"
-    }
-
-    "27a2a4cdf16a8c864daca54a00c4db03": {
+    },
+    "AddressInfo": {
         "name": "detail_address",
         "location": "longitude,latitude",
         "address": "address"
@@ -23,7 +26,6 @@ csust易班校本化自动健康打卡.
 pip install -r requirements.txt
 python main.py
 ```
-
 ## Reference
 - [Sricor/Yiban](https://github.com/Sricor/Yiban)
 - [apecodex/yibanAutoSgin](https://github.com/apecodex/yibanAutoSgin)
