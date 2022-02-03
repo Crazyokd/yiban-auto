@@ -6,23 +6,15 @@ csust易班校本化自动健康打卡.
 - [Reference](#Reference)
 - [License](#License)
 ## Usage
-### 1. edit the config.json
-```
-{
-    "UserInfo": {
-        "NickName": "nickname",
-        "Mobile": "mobile",
-        "Password": "password"
-    },
-    "AddressInfo": {
-        "name": "detail_address",
-        "location": "longitude,latitude",
-        "address": "address"
-    }
-}
-```
+### 1. fill information
+- 1. edit the [address.json](address.json)
+- 2. run program below to get the information of detail address. 
+    ```python
+    python getaddress.py
+    ```
+- 3. edit the [config.json](config.json)
 ### 2. run program
-```
+```python
 pip install -r requirements.txt
 python main.py
 ```
