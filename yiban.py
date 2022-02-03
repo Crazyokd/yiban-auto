@@ -226,3 +226,22 @@ class Yiban():
             url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
             params={'CSRF': self.CSRF}
         ).json()['data']['Initiate'])
+
+    
+    def get_address(self, month='datetime.date.today().mont', day='datetime.date.today().day'):
+        # 校本化认证
+        self.auth()
+        # generate task title
+        task_title = f'{month}月{day}日体温检测'
+        # traverse task list
+        for i in self.getCompletedList()['data']:
+            if i['Title'] == task_title:
+                InitiateId = self.req(
+                    url='https://api.uyiban.com/officeTask/client/index/detail', 
+                    params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
+                ).json()['data']['InitiateId']
+                print(self.req(
+                    url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
+                    params={'CSRF': self.CSRF}
+                ).json()['data']['Initiate']['FormDataJson'][2]['value'])
+                break
