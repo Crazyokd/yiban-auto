@@ -96,7 +96,7 @@ class Yiban():
             raise Exception(f'login fail, the mobile or password is wrong.')
     
 
-    def submit_task(self, submit_data):
+    def submit_task(self, address_info):
         # 校本化认证
         self.auth()
 
@@ -105,7 +105,7 @@ class Yiban():
         # # 获取已完成任务列表
         # print("completed task list: ", self.getCompletedList())
         
-        self.auto_fill_form(self.getUncompletedList(), submit_data)
+        self.auto_fill_form(self.getUncompletedList(), address_info)
 
 
     def auth(self):
@@ -167,7 +167,7 @@ class Yiban():
         return resp
 
 
-    def auto_fill_form(self, resp, submit_data):
+    def auto_fill_form(self, resp, address_info):
         # generate task title
         task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
         # traverse task list
@@ -194,12 +194,13 @@ class Yiban():
                     "c77d35b16fb22ec70a1f33c315141dbb": time.strftime("%Y-%m-%d %H:%M", time.localtime()), 
                     "2d4135d558f849e18a5dcc87b884cce5": str(round(random.uniform(35.2, 35.8), 1)), 
                     "27a2a4cdf16a8c864daca54a00c4db03": {
-                        "name": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['name'],
-                        "location": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['location'],
-                        "address": submit_data['Data']['27a2a4cdf16a8c864daca54a00c4db03']['address']
+                        "name": address_info['name'],
+                        "location": address_info['location'],
+                        "address": address_info['address']
                     }
                 }
 
+                submit_data = {}
                 submit_data['WFId'] = task_detail['WFId']
                 submit_data['Extend'] = json.dumps(extend, ensure_ascii=False)
                 submit_data['Data'] = json.dumps(data_form, ensure_ascii=False)

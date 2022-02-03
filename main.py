@@ -17,10 +17,10 @@ def main_handler(data=None, extend=None):
     for data in json_datas:
         msg = f"{time.strftime('%y-%m-%d',time.localtime(time.time()))} 易班打卡："
         nickname = data['UserInfo']['NickName']
-        submit_data = data['SubmitData']
+        address_info = data['AddressInfo']
         try:
             yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'])
-            yiban.submit_task(submit_data)
+            yiban.submit_task(address_info)
             msg = f'{msg}{nickname} 打卡成功.'
         except Exception as e:
             msg = f'{msg}{nickname}: {e}'
