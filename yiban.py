@@ -228,7 +228,7 @@ class Yiban():
         ).json()['data']['Initiate'])
 
     
-    def get_address(self, month='datetime.date.today().mont', day='datetime.date.today().day'):
+    def get_address(self, month=datetime.date.today().month, day=datetime.date.today().day):
         # 校本化认证
         self.auth()
         # generate task title
