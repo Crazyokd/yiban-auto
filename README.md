@@ -2,9 +2,16 @@
 csust易班校本化自动健康打卡.
 
 ## Content
+- [Disclamier](#Disclamier)
 - [Usage](#Usage)
 - [Reference](#Reference)
 - [License](#License)
+## Disclamier
+- Any script involved in this project is only for learning, testing and research, and is forbid to be used for commercial purposes.
+- When using this project, laws and regulations must be observed first. Any consequences arising from the use process shall be borne by itself, and shall not be responsible for any problems related to the project, including any loss and damage caused during the use process.
+- If there are any symptoms such as fever, cough, etc. Please stop using the project immediately, earnestly fulfill social obligations and make health declaration in time.
+- You should read this statement carefully whether you view, copy or use any script in this project in any way. I reserve the right to change or supplement this disclaimer at any time.
+- Once you use and copy any relevant scripts in this project, you will be deemed to have accepted this disclaimer by default.
 ## Usage
 ### 1. install dependency
 ```python
