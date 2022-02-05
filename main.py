@@ -9,6 +9,7 @@ import datetime
 import json
 from yiban import Yiban
 import requests
+from sendemail import start_email
 
 
 def main_handler(data=None, extend=None):
@@ -17,6 +18,7 @@ def main_handler(data=None, extend=None):
         json_datas = json.load(f)['Forms']
     # print(json_datas)
 
+    total_msg = ''
     for data in json_datas:
         success_flag = False
         while success_flag == False:
@@ -37,7 +39,9 @@ def main_handler(data=None, extend=None):
             finally:
                 if success_flag == True:                
                     print(msg)
+                    total_msg = f'{total_msg}\n\n{msg}'
                 time.sleep(1)
+    start_email(total_msg)
 
 
 if __name__ == '__main__':
