@@ -36,11 +36,11 @@ class Yiban():
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
     HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "Yiban", "AppVersion": "5.0"}  # 固定头 无需更改    
               
-    def __init__(self, mobile, password):
+    def __init__(self, mobile, password, today=datetime.datetime.today()):
         self.session = requests.session()
         self.mobile = mobile
         self.password = password
-        self.today = datetime.datetime.today()
+        self.today = today
         self.login()
 
     

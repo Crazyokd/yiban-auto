@@ -5,6 +5,7 @@
 # 易班校本化打卡
 
 import time
+import datetime
 import json
 from yiban import Yiban
 import requests
@@ -21,10 +22,11 @@ def main_handler(data=None, extend=None):
         while success_flag == False:
             success_flag = True
             nickname = data['UserInfo']['NickName']
-            msg = f"{time.strftime('%y-%m-%d',time.localtime(time.time()))} {nickname}-易班打卡："
+            today = datetime.datetime.today()
+            msg = f"%d-%02d-%02d {nickname}-易班打卡：" % (today.year, today.month, today.day)
             address_info = data['AddressInfo']
             try:
-                yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'])
+                yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'], today)
                 yiban.submit_task(address_info)
                 msg = f'{msg}Success.'
             # If an error occurs due to network problems, the program will continue to run
