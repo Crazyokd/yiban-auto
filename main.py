@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # @Author: Rekord
-# @Date: 2022-02-02
-# 易班校本化打卡
+# @Date: 2022-02-06
+
 
 import time
 import datetime
@@ -24,8 +24,9 @@ def main_handler(data=None, extend=None):
         while success_flag == False:
             success_flag = True
             nickname = data['UserInfo']['NickName']
-            today = datetime.datetime.today()
-            msg = f"%d-%02d-%02d {nickname}-易班打卡：" % (today.year, today.month, today.day)
+            # Time converted to UTC/GMT+08:00
+            today = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))
+            msg = f"%d-%02d-%02d %02d:%02d {nickname}|yiban punch：" % (today.year, today.month, today.day, today.hour, today.minute)
             address_info = data['AddressInfo']
             try:
                 yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'], today)
@@ -41,6 +42,7 @@ def main_handler(data=None, extend=None):
                     print(msg)
                     total_msg = f'{total_msg}\n\n{msg}'
                 time.sleep(1)
+    # send email
     start_email(total_msg)
 
 
