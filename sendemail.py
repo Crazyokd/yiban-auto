@@ -65,10 +65,3 @@ def start_email(message: str):
     send_emails(server, message, json_datas['ToList'])
         
     server.quit()
-
-
-if __name__ == "__main__":
-    start_email("Hello")
-
-
-    
