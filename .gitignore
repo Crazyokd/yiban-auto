@@ -21,3 +21,9 @@ push.bat
 
 # config.json
 config.bak.json
+
+# email.json
+email.bak.json
+
+# test.py
+test.py

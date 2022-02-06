@@ -1,0 +1,10 @@
+{
+    "EmailInfo": {
+        "displayName": "displayname",
+        "senderEmail": "senderemail",
+        "password": "password"
+    },
+    "ToList": {
+        "Rekord": "receiveremail"
+    }
+}

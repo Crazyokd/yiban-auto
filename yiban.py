@@ -36,10 +36,11 @@ class Yiban():
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
     HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "Yiban", "AppVersion": "5.0"}  # 固定头 无需更改    
               
-    def __init__(self, mobile, password):
+    def __init__(self, mobile, password, today=datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))):
         self.session = requests.session()
         self.mobile = mobile
         self.password = password
+        self.today = today
         self.login()
 
     
@@ -71,7 +72,7 @@ class Yiban():
             )
         else:
             self.session.close()    # close session
-            raise ConnectionError('Requests method error.')
+            raise Exception('Requests method error.')
         return resp
 
 
@@ -135,8 +136,8 @@ class Yiban():
         resp = self.req(
             url='https://api.uyiban.com/officeTask/client/index/completedList', 
             params={
-                'StartTime': (datetime.datetime.now()+datetime.timedelta(days=-14)).strftime('%Y-%m-%d'),
-                'EndTime': time.strftime("%Y-%m-%d 23:59", time.localtime()),
+                'StartTime': (self.today+datetime.timedelta(days=-14)).strftime('%Y-%m-%d'),
+                'EndTime': "%d-%02d-%02d 23:59" % (self.today.year, self.today.month, self.today.day),
                 'CSRF': self.CSRF
             }
         ).json()
@@ -153,8 +154,8 @@ class Yiban():
         resp = self.req(
             url='https://api.uyiban.com/officeTask/client/index/uncompletedList', 
             params={
-                'StartTime': (datetime.datetime.now()+datetime.timedelta(days=-14)).strftime('%Y-%m-%d'),
-                'EndTime': time.strftime("%Y-%m-%d 23:59", time.localtime()),
+                'StartTime': (self.today+datetime.timedelta(days=-14)).strftime('%Y-%m-%d'),
+                'EndTime': "%d-%02d-%02d 23:59" % (self.today.year, self.today.month, self.today.day),
                 'CSRF': self.CSRF
             }
         ).json()
@@ -162,14 +163,14 @@ class Yiban():
         if resp['data'] is None:
             self.re_auth()
             self.session.close()    # close session
-            raise Exception("auth expired, please try again.")
+            raise ConnectionError("auth expired, please try again.")
 
         return resp
 
 
     def auto_fill_form(self, resp, address_info):
         # generate task title
-        task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
+        task_title = f'{self.today.month}月{self.today.day}日体温检测'
         # traverse task list
         for i in resp['data']:
             if i['Title'] == task_title:
@@ -191,7 +192,7 @@ class Yiban():
                     ]
                 }
                 data_form = { 
-                    "c77d35b16fb22ec70a1f33c315141dbb": time.strftime("%Y-%m-%d %H:%M", time.localtime()), 
+                    "c77d35b16fb22ec70a1f33c315141dbb": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour, self.today.minute), 
                     "2d4135d558f849e18a5dcc87b884cce5": str(round(random.uniform(35.2, 35.8), 1)), 
                     "27a2a4cdf16a8c864daca54a00c4db03": {
                         "name": address_info['name'],
@@ -216,7 +217,7 @@ class Yiban():
                 # Failed
                 if resp['code'] != 0:
                     self.session.close()    # close session
-                    raise Exception(f"clock out failed.")
+                    raise Exception(f"punch failed.")
                 break
 
 
