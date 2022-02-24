@@ -20,4 +20,4 @@ jobs:
 
     - name: Run Yiban
       run: |
-        python index.py
+        python main.py
