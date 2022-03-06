@@ -21,7 +21,8 @@ def main_handler(data=None, extend=None):
     total_msg = ''
     for data in json_datas:
         success_flag = False
-        while success_flag == False:
+        max_run_count = 10 # 最大运行次数
+        while success_flag == False and max_run_count > 0:
             success_flag = True
             nickname = data['UserInfo']['NickName']
             # Time converted to UTC/GMT+08:00
@@ -35,6 +36,7 @@ def main_handler(data=None, extend=None):
             # If an error occurs due to network problems, the program will continue to run
             except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
                 success_flag = False
+                max_run_count -= 1
             except Exception as e:
                 msg = f'{msg}{e}'
             finally:
@@ -42,6 +44,7 @@ def main_handler(data=None, extend=None):
                     print(msg)
                     total_msg = f'{total_msg}\n\n{msg}'
                 time.sleep(1)
+    # print(total_msg)
     # send email
     start_email(total_msg)
 
