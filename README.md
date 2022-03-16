@@ -1,5 +1,5 @@
 # yiban-auto
-csust易班校本化自动健康打卡.【[英文版](README_en.md)】
+csust易班校本化自动健康打卡.【[English](README_en.md)】
 
 ## 目录
 - [免责声明](#免责声明)
