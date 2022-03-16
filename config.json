@@ -7,9 +7,9 @@
                 "Password": "password"
             },
             "AddressInfo": {
-                "name": "detail_address",
-                "location": "longitude,latitude",
-                "address": "address"
+                "location1": "location1",
+                "location2": "location2",
+                "location3": "location3"
             }
         },
         {
@@ -19,9 +19,9 @@
                 "Password": "password"
             },
             "AddressInfo": {
-                "name": "detail_address",
-                "location": "longitude,latitude",
-                "address": "address"
+                "location1": "location1",
+                "location2": "location2",
+                "location3": "location3"
             }
         }
     ]
