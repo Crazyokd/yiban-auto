@@ -126,6 +126,10 @@ class Yiban():
 
     def re_auth(self):
         self.req(
+            url='https://oauth.yiban.cn/code/html',
+            params={'client_id': '95626fa3080300ea', 'redirect_uri': 'https://f.yiban.cn/iapp7463'},
+        )
+        self.req(
             method='post',
             url='https://oauth.yiban.cn/code/usersure', 
             data={'client_id': '95626fa3080300ea', 'redirect_uri': 'https://f.yiban.cn/iapp7463'}
@@ -194,13 +198,18 @@ class Yiban():
                 data_form = { 
                     "c77d35b16fb22ec70a1f33c315141dbb": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour-12, self.today.minute), 
                     "2d4135d558f849e18a5dcc87b884cce5": str(round(random.uniform(35.2, 35.8), 1)),
-                    "ffcf6cdef0e8d2992add5497f4cf438c": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour, self.today.minute),
-                    "9a080e8acb1424067b0927ab2347c2ee": str(round(random.uniform(35.2, 35.8), 1)),
-                    "27a2a4cdf16a8c864daca54a00c4db03": {
-                        "name": address_info['name'],
-                        "location": address_info['location'],
-                        "address": address_info['address']
-                    }
+                #     "ffcf6cdef0e8d2992add5497f4cf438c": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour, self.today.minute),
+                #     "9a080e8acb1424067b0927ab2347c2ee": str(round(random.uniform(35.2, 35.8), 1)),
+                #     "27a2a4cdf16a8c864daca54a00c4db03": {
+                #         "name": address_info['name'],
+                #         "location": address_info['location'],
+                #         "address": address_info['address']
+                #     }
+                    "d4ef7a8aa15b5a77ac2bae34b9275ef5": [
+                        address_info['location1'], 
+                        address_info['location2'],
+                        address_info['location3']
+                    ]
                 }
 
                 submit_data = {}
