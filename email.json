@@ -1,10 +1,10 @@
 {
     "EmailInfo": {
-        "displayName": "displayname",
-        "senderEmail": "senderemail",
-        "password": "password"
+        "displayName": "yiban-punch",
+        "senderEmail": "482693810@qq.com",
+        "password": "harnbxzdwqgxbifg"
     },
     "ToList": {
-        "Rekord": "receiveremail"
+        "Rekord": "1324596506@qq.com"
     }
 }

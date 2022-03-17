@@ -47,7 +47,7 @@ def start_email(message: str):
     global SENDER_EMAIL
     global PASSWORD
     # load json datas
-    with open('email.json', encoding='utf-8') as f:
+    with open('config.json', encoding='utf-8') as f:
         json_datas = json.load(f)
     DISPLAY_NAME = json_datas['EmailInfo']['displayName']
     SENDER_EMAIL = json_datas['EmailInfo']['senderEmail']
