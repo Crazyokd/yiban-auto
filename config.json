@@ -24,5 +24,19 @@
                 "location3": "location3"
             }
         }
-    ]
+    ],
+    "address": {
+        "mobile": "mobile",
+        "password": "password",
+        "month": "3",
+        "day": "17"
+    },
+    "EmailInfo": {
+        "displayName": "displayname",
+        "senderEmail": "senderemail",
+        "password": "password"
+    },
+    "ToList": {
+        "Rekord": "receiveremail"
+    }
 }
