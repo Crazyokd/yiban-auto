@@ -20,12 +20,12 @@ csust易班校本化自动健康打卡.【[English](README_en.md)】
 pip install -r requirements.txt
 ```
 ### 2. 填写信息
-- 1. 编辑[address.json](address.json)文件
+- 1. 编辑[config.json](config.json)文件
 - 2. 运行下面的程序从而得到您详细的地址信息。 
     ```python
     python getaddress.py
     ```
-- 3. 编辑[config.json](config.json)文件
+    
 ### 3. 运行程序
 ```python
 python main.py
