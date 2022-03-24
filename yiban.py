@@ -209,7 +209,11 @@ class Yiban():
                         address_info['location1'], 
                         address_info['location2'],
                         address_info['location3']
-                    ]
+                    ],
+                    "3abb950fb0730c739d3f637f3d5389b3": "是",
+                    "5981782c74bd2d049e45517390841bfd": None,
+                    "36546c2d23ea21c275a2fcb9710b4946": None,
+                    "9a9b31134b721ab46f4c6d383d7403b2": None,
                 }
 
                 submit_data = {}
