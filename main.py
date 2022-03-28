@@ -28,7 +28,7 @@ def main_handler(data=None, extend=None):
             # Time converted to UTC/GMT+08:00
             today = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))
             msg = f"%d-%02d-%02d %02d:%02d {nickname}|yiban punch：" % (today.year, today.month, today.day, today.hour, today.minute)
-            address_info = data['AddressInfo']
+            address_info = data['FormInfo']['AddressInfo']
             try:
                 yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'], today)
                 yiban.submit_task(address_info)

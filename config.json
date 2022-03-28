@@ -6,10 +6,12 @@
                 "Mobile": "mobile",
                 "Password": "password"
             },
-            "AddressInfo": {
-                "location1": "location1",
-                "location2": "location2",
-                "location3": "location3"
+            "FormInfo": {
+                "AddressInfo": {
+                    "location1": "location1",
+                    "location2": "location2",
+                    "location3": "location3"
+                }
             }
         },
         {
@@ -18,10 +20,12 @@
                 "Mobile": "mobile",
                 "Password": "password"
             },
-            "AddressInfo": {
-                "location1": "location1",
-                "location2": "location2",
-                "location3": "location3"
+            "FormInfo": {
+                "AddressInfo": {
+                    "location1": "location1",
+                    "location2": "location2",
+                    "location3": "location3"
+                }
             }
         }
     ],
