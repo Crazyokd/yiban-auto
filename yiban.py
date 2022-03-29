@@ -205,7 +205,7 @@ class Yiban():
                 #         "location": address_info['location'],
                 #         "address": address_info['address']
                 #     }
-                    "fa725575fec9f7486a466a53d91029f1": "%d-%02d-%02d" % (self.today.year, self.today.month, self.today.day),
+                    "fa725575fec9f7486a466a53d91029f1": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour, self.today.minute),
                     "a3d09d9513e5d38834f8e566a145bd8c": str(round(random.uniform(35.2, 35.8), 1)),
                     "d4ef7a8aa15b5a77ac2bae34b9275ef5": [
                         address_info['location1'], 
