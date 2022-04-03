@@ -274,17 +274,20 @@ class Yiban():
 
 
     def get_picture(self):
-        # 校本化认证
-        self.auth()
-        resp = self.getCompletedList()
-        # get the date of yesterday
-        task_title = f'{self.today.month}月{(self.today - datetime.timedelta(days=1)).day}日体温检测'
-        # traverse task list
-        for i in resp['data']:
-            if i['Title'] == task_title:
-                task_detail = self.req(
-                    url='https://api.uyiban.com/officeTask/client/index/detail', 
-                    params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
-                ).json()['data']
+        try: 
+            # 校本化认证
+            self.auth()
+            resp = self.getCompletedList()
+            # get the date of yesterday
+            task_title = f'{self.today.month}月{(self.today - datetime.timedelta(days=1)).day}日体温检测'
+            # traverse task list
+            for i in resp['data']:
+                if i['Title'] == task_title:
+                    task_detail = self.req(
+                        url='https://api.uyiban.com/officeTask/client/index/detail', 
+                        params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
+                    ).json()['data']
 
-                return self.view_completed(task_detail['InitiateId'])['FormDataJson'][5]['value']
+                    return self.view_completed(task_detail['InitiateId'])['FormDataJson'][5]['value']
+        except Exception:
+            return None
