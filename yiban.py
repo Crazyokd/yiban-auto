@@ -273,11 +273,12 @@ class Yiban():
             return None            
 
 
-    def get_picture(self):
+    # get the pricture of assigned date, default yesterday
+    def get_picture(self, day=datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
         try: 
             resp = self.getCompletedList()
             # get the date of yesterday
-            task_title = f'{self.today.month}月{(self.today - datetime.timedelta(days=1)).day}日体温检测'
+            task_title = f'{day.month}月{day.day}日体温检测'
             # traverse task list
             for i in resp['data']:
                 if i['Title'] == task_title:
