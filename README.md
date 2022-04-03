@@ -30,6 +30,10 @@ pip install -r requirements.txt
 ```python
 python main.py
 ```
+
+## 代办
+- [ ] 添加命令参数
+
 ## 参考
 - [Sricor/Yiban](https://github.com/Sricor/Yiban)
 - [apecodex/yibanAutoSgin](https://github.com/apecodex/yibanAutoSgin)
