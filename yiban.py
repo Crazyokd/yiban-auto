@@ -97,7 +97,7 @@ class Yiban():
             raise Exception(f'login fail, the mobile or password is wrong.')
     
 
-    def submit_task(self, address_info):
+    def submit_task(self, form_info):
         # 校本化认证
         self.auth()
 
@@ -106,7 +106,7 @@ class Yiban():
         # # 获取已完成任务列表
         # print("completed task list: ", self.getCompletedList())
         
-        self.auto_fill_form(self.getUncompletedList(), address_info)
+        self.auto_fill_form(self.getUncompletedList(), form_info)
 
 
     def auth(self):
@@ -172,7 +172,7 @@ class Yiban():
         return resp
 
 
-    def auto_fill_form(self, resp, address_info):
+    def auto_fill_form(self, resp, form_info):
         # generate task title
         task_title = f'{self.today.month}月{self.today.day}日体温检测'
         # traverse task list
@@ -205,13 +205,14 @@ class Yiban():
                 #         "location": address_info['location'],
                 #         "address": address_info['address']
                 #     }
-                    "fa725575fec9f7486a466a53d91029f1": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour, self.today.minute),
+                    "fa725575fec9f7486a466a53d91029f1": "%d-%02d-%02d %02d:%02d" % (self.today.year, self.today.month, self.today.day, self.today.hour+12, self.today.minute),
                     "a3d09d9513e5d38834f8e566a145bd8c": str(round(random.uniform(35.2, 35.8), 1)),
                     "d4ef7a8aa15b5a77ac2bae34b9275ef5": [
-                        address_info['location1'], 
-                        address_info['location2'],
-                        address_info['location3']
+                        self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo"), "location1"),
+                        self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo"), "location2"),
+                        self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo"), "location3"),
                     ],
+                    "ee393bc83d4494af06eaa3fd0d61683f": self.get_picture(),
                     "3abb950fb0730c739d3f637f3d5389b3": "是",
                     "5981782c74bd2d049e45517390841bfd": None,
                     "36546c2d23ea21c275a2fcb9710b4946": None,
@@ -240,10 +241,10 @@ class Yiban():
 
     "通过此函数可以分析已提交的表单数据"
     def view_completed(self, InitiateId):
-        print(self.req(
+        return self.req(
             url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
             params={'CSRF': self.CSRF}
-        ).json()['data']['Initiate'])
+        ).json()['data']['Initiate']
 
     
     def get_address(self, month=datetime.date.today().month, day=datetime.date.today().day):
@@ -263,3 +264,27 @@ class Yiban():
                     params={'CSRF': self.CSRF}
                 ).json()['data']['Initiate']['FormDataJson'][2]['value'])
                 break
+
+
+    def get_value_from_key(self, dict, key):
+        try:
+            return dict[key]
+        except KeyError:
+            return None            
+
+
+    def get_picture(self):
+        # 校本化认证
+        self.auth()
+        resp = self.getCompletedList()
+        # get the date of yesterday
+        task_title = f'{self.today.month}月{(self.today - datetime.timedelta(days=1)).day}日体温检测'
+        # traverse task list
+        for i in resp['data']:
+            if i['Title'] == task_title:
+                task_detail = self.req(
+                    url='https://api.uyiban.com/officeTask/client/index/detail', 
+                    params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
+                ).json()['data']
+
+                return self.view_completed(task_detail['InitiateId'])['FormDataJson'][5]['value']
