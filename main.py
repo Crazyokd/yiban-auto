@@ -28,10 +28,10 @@ def main_handler(data=None, extend=None):
             # Time converted to UTC/GMT+08:00
             today = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))
             msg = f"%d-%02d-%02d %02d:%02d {nickname}|yiban punch：" % (today.year, today.month, today.day, today.hour, today.minute)
-            address_info = data['FormInfo']['AddressInfo']
+            form_info = data['FormInfo']
             try:
                 yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'], today)
-                yiban.submit_task(address_info)
+                yiban.submit_task(form_info)
                 msg = f'{msg}Success.'
             # If an error occurs due to network problems, the program will continue to run
             except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
