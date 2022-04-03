@@ -275,8 +275,6 @@ class Yiban():
 
     def get_picture(self):
         try: 
-            # 校本化认证
-            self.auth()
             resp = self.getCompletedList()
             # get the date of yesterday
             task_title = f'{self.today.month}月{(self.today - datetime.timedelta(days=1)).day}日体温检测'
