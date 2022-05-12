@@ -4,6 +4,7 @@ csust易班校本化自动健康打卡.【[English](README_en.md)】
 ## 目录
 - [免责声明](#免责声明)
 - [用法](#用法)
+- [待办](#待办)
 - [参考](#参考)
 - [协议](#协议)
 
@@ -31,7 +32,12 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## 代办
+### 4. 考虑使用 GitHub Action 实现每日定时打卡
+- 1. 编辑[main.yml](.github/workflows/main.yml)文件并去掉第五行和和第六行的注释。
+- 2. 编辑第六行的 **`- cron`**，选择一个适当的定时时间。
+    > 关于`cron`的含义和用法可参考[https://jasonet.co/posts/scheduled-actions/](https://jasonet.co/posts/scheduled-actions/)
+
+## 待办
 - [ ] 添加命令参数
 
 ## 参考
