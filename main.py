@@ -3,7 +3,7 @@
 # @Author: Rekord
 # @Date: 2022-02-06
 
-
+import getpass
 import time
 import datetime
 import json
@@ -49,5 +49,20 @@ def main_handler(data=None, extend=None):
     start_email(total_msg)
 
 
+def analyse_form():
+    info = {}
+    info['account'] = input("请输入手机号：")
+    info['password'] =getpass.getpass("请输入密码：") 
+    
+    yiban = Yiban(info['account'], info['password'], datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])))
+    # 根据自身情况考虑是否传参
+    yiban.analyse()
+
+
+
 if __name__ == '__main__':
+    # if you want to analyse your own specific form.
+    # please uncomment the following line.
+    # analyse_form()
+
     main_handler()

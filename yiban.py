@@ -239,7 +239,6 @@ class Yiban():
                 break
 
 
-    "通过此函数可以分析已提交的表单数据"
     def view_completed(self, InitiateId):
         return self.req(
             url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
@@ -290,3 +289,25 @@ class Yiban():
                     return self.view_completed(task_detail['InitiateId'])['FormDataJson'][5]['value']
         except Exception:
             return None
+
+
+    # 分析自定义表单，默认时间为“昨天”，默认任务标题为“{day.month}月{day.day}日体温检测”
+    def analyse(self, task_title = 'None', 
+        day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
+        # 校本化认证
+        self.auth()
+
+        resp = self.getCompletedList()
+        if task_title == 'None':
+            task_title = f'{day.month}月{day.day}日体温检测'
+        # traverse task list
+        for i in resp['data']:
+            if i['Title'] == task_title:
+                task_detail = self.req(
+                    url='https://api.uyiban.com/officeTask/client/index/detail', 
+                    params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
+                ).json()['data']
+
+                # print(task_detail)
+                # print(self.view_completed(task_detail['InitiateId']))
+                print(self.view_completed(task_detail['InitiateId'])['FormDataJson'])

@@ -37,6 +37,14 @@ python main.py
 - 2. 编辑第六行的 **`- cron`**，选择一个适当的定时时间。
     > 关于`cron`的含义和用法可参考[https://jasonet.co/posts/scheduled-actions/](https://jasonet.co/posts/scheduled-actions/)
 
+### 5. 自定义表单
+- 调用[main.py](main.py)文件中的`analyse_form()`方法，从而得到自己特定的表单提交规范
+    > 请仔细查看`analyse_form()`方法的实现。
+- 更改[yiban.py](yiban.py)文件中的`auto_fill_form`方法，并相应的修改[配置文件](config.json)
+    > 真的很简单！
+> **自定义表单成功的案例欢迎pr！**
+
+
 ## 待办
 - [ ] 添加命令参数
 
