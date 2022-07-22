@@ -78,20 +78,16 @@ class Yiban():
 
     def login(self):
         resp = self.req(
-            method= 'post',
-            url = 'https://mobile.yiban.cn/api/v4/passport/login',
+            method = 'post',
+            url = 'https://www.yiban.cn/login/doLoginAjax',
             data = {
-                'ct':       '2',
-                'identify': '1',
-                'mobile':   self.mobile,
-                'password': rsa_encrypt(self.RSA_KEY, self.password),
+                'account':self.mobile,
+                'password':self.password,
             }
-        ).json()
-        # print(resp)
-        if resp['response'] == 100:
-            self.name = resp['data']['user']['name']
-            self.access_token = resp['data']['access_token']
-            print(self.name, "login success!")
+        )
+        if resp.json()['code'] == 200:
+            # get yiban_user_token
+            self.access_token = requests.utils.dict_from_cookiejar(resp.cookies)['yiban_user_token']
         else:
             self.session.close()    # close session
             raise Exception(f'login fail, the mobile or password is wrong.')
@@ -112,9 +108,9 @@ class Yiban():
     def auth(self):
         # 校本化认证
         resp = self.req(
-            url='http://f.yiban.cn/iapp/index', 
+            url='http://f.yiban.cn/iframe/index', 
             params={'act': 'iapp7463'},
-            cookies={'loginToken': self.access_token},
+            cookies={'yiban_user_token': self.access_token},
             allow_redirects=False
         )
         verify = re.findall(r"verify_request=(.*?)&", resp.headers.get("Location"))[0]
