@@ -45,8 +45,6 @@ python main.py
 - 更改[yiban.py](yiban.py)文件中的`auto_fill_form`方法，并相应的修改[配置文件](config.json)
     > 真的很简单！
 > **自定义表单成功的案例欢迎pr！**
-> 
-> **吉林农业大学的易班健康打卡模板见[jlny](https://github.com/Crazyokd/yiban-auto/tree/jlny)**
 
 
 ## 待办
