@@ -242,11 +242,12 @@ class Yiban():
         ).json()['data']['Initiate']
 
     
-    def get_address(self, month=datetime.date.today().month, day=datetime.date.today().day):
+    def get_address(self, task_title=None):
         # 校本化认证
         self.auth()
         # generate task title
-        task_title = f'{month}月{day}日体温检测'
+        if task_title == None:
+            task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
         # traverse task list
         for i in self.getCompletedList()['data']:
             if i['Title'] == task_title:
@@ -257,7 +258,7 @@ class Yiban():
                 print(self.req(
                     url=f'https://api.uyiban.com/workFlow/c/work/show/view/{InitiateId}',
                     params={'CSRF': self.CSRF}
-                ).json()['data']['Initiate']['FormDataJson'][2]['value'])
+                ).json()['data']['Initiate']['FormDataJson'])
                 break
 
 
