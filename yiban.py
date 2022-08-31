@@ -36,10 +36,11 @@ class Yiban():
     COOKIES = {"csrf_token": CSRF}  # 固定cookie 无需更改
     HEADERS = {"Origin": "https://c.uyiban.com", "User-Agent": "Yiban", "AppVersion": "5.0"}  # 固定头 无需更改    
               
-    def __init__(self, mobile, password, today=datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))):
+    def __init__(self, mobile, password, task_title, today=datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))):
         self.session = requests.session()
         self.mobile = mobile
         self.password = password
+        self.task_title = task_title
         self.today = today
         self.login()
 
@@ -169,11 +170,9 @@ class Yiban():
 
 
     def auto_fill_form(self, resp, form_info):
-        # generate task title
-        task_title = f'{self.today.month}月{self.today.day}日体温检测'
         # traverse task list
         for i in resp['data']:
-            if i['Title'] == task_title:
+            if i['Title'] == self.task_title:
                 task_detail = self.req(
                     url='https://api.uyiban.com/officeTask/client/index/detail', 
                     params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
@@ -205,9 +204,9 @@ class Yiban():
                         "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
                     },
                     # 22.8.31 健康码截图
-                    "9a6da1b5c2519032945d1048a60d75f9": self.get_picture(),
+                    "9a6da1b5c2519032945d1048a60d75f9": self.get_picture("9a6da1b5c2519032945d1048a60d75f9"),
                     # 22.8.31 行程码截图
-                    "9f87836748d6788550624c40a0409b93": self.get_picture(),
+                    "9f87836748d6788550624c40a0409b93": self.get_picture("9f87836748d6788550624c40a0409b93"),
                 }
 
                 submit_data = {}
@@ -237,15 +236,12 @@ class Yiban():
         ).json()['data']['Initiate']
 
     
-    def get_address(self, task_title=None):
+    def get_address(self):
         # 校本化认证
         self.auth()
-        # generate task title
-        if task_title == None:
-            task_title = f'{datetime.date.today().month}月{datetime.date.today().day}日体温检测'
         # traverse task list
         for i in self.getCompletedList()['data']:
-            if i['Title'] == task_title:
+            if i['Title'] == self.task_title:
                 InitiateId = self.req(
                     url='https://api.uyiban.com/officeTask/client/index/detail', 
                     params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
@@ -265,16 +261,12 @@ class Yiban():
 
 
     # get the pricture of assigned date, default yesterday
-    def get_picture(self, id, task_title=None):
+    def get_picture(self, id):
         try: 
             resp = self.getCompletedList()
-            if task_title == None:
-                # get the date of yesterday
-                day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)
-                task_title = f'{day.month}月{day.day}日体温检测'
             # traverse task list
             for i in resp['data']:
-                if i['Title'] == task_title:
+                if i['Title'] == self.task_title:
                     task_detail = self.req(
                         url='https://api.uyiban.com/officeTask/client/index/detail', 
                         params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
@@ -289,17 +281,14 @@ class Yiban():
 
 
     # 分析自定义表单，默认时间为“昨天”，默认任务标题为“{day.month}月{day.day}日体温检测”
-    def analyse(self, task_title = 'None', 
-        day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
+    def analyse(self, day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
         # 校本化认证
         self.auth()
 
         resp = self.getCompletedList()
-        if task_title == 'None':
-            task_title = f'{day.month}月{day.day}日体温检测'
         # traverse task list
         for i in resp['data']:
-            if i['Title'] == task_title:
+            if i['Title'] == self.task_title:
                 task_detail = self.req(
                     url='https://api.uyiban.com/officeTask/client/index/detail', 
                     params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
