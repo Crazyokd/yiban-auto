@@ -7,10 +7,15 @@
                 "Password": "password"
             },
             "FormInfo": {
-                "AddressInfo": {
+                "AddressInfo1": {
                     "location1": "location1",
                     "location2": "location2",
                     "location3": "location3"
+                },
+                "AddressInfo2": {
+                    "name": "name",
+                    "location": "longitude,latitude",
+                    "address": "address"
                 }
             }
         },
@@ -21,10 +26,15 @@
                 "Password": "password"
             },
             "FormInfo": {
-                "AddressInfo": {
+                "AddressInfo1": {
                     "location1": "location1",
                     "location2": "location2",
                     "location3": "location3"
+                },
+                "AddressInfo2": {
+                    "name": "name",
+                    "location": "longitude,latitude",
+                    "address": "address"
                 }
             }
         }
@@ -32,8 +42,8 @@
     "address": {
         "mobile": "mobile",
         "password": "password",
-        "month": "3",
-        "day": "17"
+        "month": "8",
+        "day": "31"
     },
     "EmailInfo": {
         "displayName": "displayname",
