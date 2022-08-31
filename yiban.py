@@ -265,11 +265,13 @@ class Yiban():
 
 
     # get the pricture of assigned date, default yesterday
-    def get_picture(self, day=datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
+    def get_picture(self, id, task_title=None):
         try: 
             resp = self.getCompletedList()
-            # get the date of yesterday
-            task_title = f'{day.month}月{day.day}日体温检测'
+            if task_title == None:
+                # get the date of yesterday
+                day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)
+                task_title = f'{day.month}月{day.day}日体温检测'
             # traverse task list
             for i in resp['data']:
                 if i['Title'] == task_title:
@@ -278,7 +280,10 @@ class Yiban():
                         params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
                     ).json()['data']
 
-                    return self.view_completed(task_detail['InitiateId'])['FormDataJson'][5]['value']
+                    form_data_json = self.view_completed(task_detail['InitiateId'])['FormDataJson']
+                    for item in form_data_json:
+                        if item['id'] == id:
+                            return item['value']
         except Exception:
             return None
 
