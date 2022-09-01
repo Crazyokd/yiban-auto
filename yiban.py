@@ -285,15 +285,16 @@ class Yiban():
             return None
 
 
-    # 分析自定义表单，默认时间为“昨天”，默认任务标题为“{day.month}月{day.day}日体温检测”
-    def analyse(self, day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)):
+    # 分析自定义表单，默认时间为“今天”，默认任务标题为“{day.month}月{day.day}日体温检测”
+    def analyse(self, day = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))):
         # 校本化认证
         self.auth()
 
+        task_title = f'{day.month}月{day.day}日体温检测'
         resp = self.getCompletedList()
         # traverse task list
         for i in resp['data']:
-            if i['Title'] == self.task_title:
+            if i['Title'] == task_title:
                 task_detail = self.req(
                     url='https://api.uyiban.com/officeTask/client/index/detail', 
                     params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
