@@ -29,8 +29,7 @@ def main_handler(data=None, extend=None):
             today = datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3]))
             msg = f"%d-%02d-%02d %02d:%02d {nickname}|yiban punch：" % (today.year, today.month, today.day, today.hour, today.minute)
             form_info = data['FormInfo']
-            # task_title = f'{today.month}月{today.day}日体温检测'
-            task_title = '每日健康打卡'
+            task_title = f'{today.month}月{today.day}日体温检测'
             try:
                 yiban = Yiban(data['UserInfo']['Mobile'], data['UserInfo']['Password'], task_title, today)
                 yiban.submit_task(form_info)

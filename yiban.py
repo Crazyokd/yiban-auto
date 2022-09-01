@@ -261,12 +261,17 @@ class Yiban():
 
 
     # get the pricture of assigned date, default yesterday
-    def get_picture(self, id):
+    def get_picture(self, id, 
+        month=(datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)).month, 
+        day=(datetime.datetime.today() + datetime.timedelta(hours=8-int(time.strftime('%z')[0:3])) - datetime.timedelta(days=1)).day):
+        # regenerate task title
+        task_title = f'{month}月{day}日体温检测'
+        # task_title = '每日健康打卡'
         try: 
             resp = self.getCompletedList()
             # traverse task list
             for i in resp['data']:
-                if i['Title'] == self.task_title:
+                if i['Title'] == task_title:
                     task_detail = self.req(
                         url='https://api.uyiban.com/officeTask/client/index/detail', 
                         params={'TaskId': i['TaskId'], 'CSRF': self.CSRF}
