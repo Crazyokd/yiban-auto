@@ -191,22 +191,24 @@ class Yiban():
                     ]
                 }
                 data_form = {
-                    # 22.8.31 知晓并承诺
+                    # 22.8.31/22.10.11 知晓并承诺
                     "38df3554797feb3bee44085f97d12415": '是',
-                    # 22.8.31 是否到校
+                    # 22.8.31/22.10.11 是否到校
                     "3997e429ef32611e7d0c6b8eabdaad7b": '是',
-                    # 22.8.31 体温
+                    # 22.8.31/22.10.11 体温
                     "b201c112a5789abb8ffcb8eb2d83a2e3": str(round(random.uniform(35.2, 35.8), 1)),
-                    # 22.8.31 地图选址
+                    # 22.8.31/22.10.11 地图选址
                     "babc320d498749758fb5f97521e40920": {
                         "name": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "name"),
                         "location": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "location"),
                         "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
                     },
-                    # 22.8.31 健康码截图
+                    # 22.10.11 是否参与10月9日全员核酸检测
+                    "c05562191b7d1de1673f86ad426fa5d8": '是',
+                    # 22.8.31/22.10.11 健康码截图
                     "9a6da1b5c2519032945d1048a60d75f9": self.get_picture("9a6da1b5c2519032945d1048a60d75f9"),
-                    # 22.8.31 行程码截图
-                    "9f87836748d6788550624c40a0409b93": self.get_picture("9f87836748d6788550624c40a0409b93"),
+                    # # 22.8.31 行程码截图
+                    # "9f87836748d6788550624c40a0409b93": self.get_picture("9f87836748d6788550624c40a0409b93"),
                 }
 
                 submit_data = {}
