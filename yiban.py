@@ -197,8 +197,16 @@ class Yiban():
                     "3997e429ef32611e7d0c6b8eabdaad7b": '是',
                     # 22.8.31/22.10.11 体温
                     "b201c112a5789abb8ffcb8eb2d83a2e3": str(round(random.uniform(35.2, 35.8), 1)),
+                    # 22.10.14 体温
+                    "273d12ffa488129e810ff610d430ac62": str(round(random.uniform(35.2, 35.8), 1)),
                     # 22.8.31/22.10.11 地图选址
                     "babc320d498749758fb5f97521e40920": {
+                        "name": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "name"),
+                        "location": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "location"),
+                        "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
+                    },
+                    # 22.10.14 所处位置
+                    "6a99c40fd0ed9849cbcdbb3dc1e86b01": {
                         "name": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "name"),
                         "location": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "location"),
                         "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
