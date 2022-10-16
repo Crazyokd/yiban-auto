@@ -199,6 +199,8 @@ class Yiban():
                     "b201c112a5789abb8ffcb8eb2d83a2e3": str(round(random.uniform(35.2, 35.8), 1)),
                     # 22.10.14 体温
                     "273d12ffa488129e810ff610d430ac62": str(round(random.uniform(35.2, 35.8), 1)),
+                    # 22.10.16 体温
+                    "934ba45bc2d052dbbe2280cbbb864a3b": str(round(random.uniform(35.2, 35.8), 1)),
                     # 22.8.31/22.10.11 地图选址
                     "babc320d498749758fb5f97521e40920": {
                         "name": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "name"),
@@ -211,10 +213,20 @@ class Yiban():
                         "location": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "location"),
                         "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
                     },
+                    # 22.10.16 所处位置
+                    "742da230bb2e718352cf198a974b1423": {
+                        "name": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "name"),
+                        "location": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "location"),
+                        "address": self.get_value_from_key(self.get_value_from_key(form_info, "AddressInfo2"), "address")
+                    },
                     # 22.10.11 是否参与10月9日全员核酸检测
                     "c05562191b7d1de1673f86ad426fa5d8": '是',
+                    # 22.10.16 10月15日核酸是否采样
+                    "d5bd2fbde30e746767562c24e268fdd7": '是',
                     # 22.8.31/22.10.11 健康码截图
                     "9a6da1b5c2519032945d1048a60d75f9": self.get_picture("9a6da1b5c2519032945d1048a60d75f9"),
+                    # 22.10.16 核酸截图
+                    "9d6e37b98f6d06d8cb30146871d5d0d0": self.get_picture("9d6e37b98f6d06d8cb30146871d5d0d0"),
                     # 22.8.31 行程码截图
                     "9f87836748d6788550624c40a0409b93": self.get_picture("9f87836748d6788550624c40a0409b93"),
                 }
